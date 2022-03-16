@@ -104,7 +104,7 @@ INSERT INTO `auditorium`(`auditoriumID`,`theaterID`, `auditorium_no`, `total_sea
 
 CREATE TABLE `seats`(
     `seatID` INT NOT NULL AUTO_INCREMENT,
-    `auditoriumID` INT(10) NOT NULL,
+    `auditoriumID` VARCHAR(4),
     `seat_no` INT(50) NOT NULL,
     PRIMARY KEY (`seatID`),
     FOREIGN KEY (`auditoriumID`) REFERENCES auditorium(`auditoriumID`)
@@ -230,11 +230,3 @@ INSERT INTO `payment` (`ticketID`, `amount`, `cardNumber`, `userID`) VALUES
 ('1111', '20.00', '3440947502842836', '3002'),
 ('1114', '30.00', '9248395729374773', '3006'),
 ('1112', '10.00','2938999300229393', '3009');
-
-
-
-
-
-
-
-
