@@ -7,7 +7,7 @@ USE `cinema_booking`;
 
  
 
-DROP TABLE IF EXISTS `payment`; -- mine to insert data
+DROP TABLE IF EXISTS `payment`; 
 DROP TABLE IF EXISTS `tickets`;
 DROP TABLE IF EXISTS `schedule`;
 DROP TABLE IF EXISTS `movie`; 
@@ -221,7 +221,7 @@ CREATE TABLE `payment`(
     `paymentID` INT NOT NULL AUTO_INCREMENT,
     `ticketID` INT NOT NULL,
     `amount` INT(12) NOT NULL,
-    `cardNumber` INT(20) NOT NULL,
+    `cardNumber` VARCHAR(20) NOT NULL,
     `userID` INT NOT NULL,
     PRIMARY KEY (`paymentID`),
     FOREIGN KEY (`ticketID`)  REFERENCES tickets(`ticketID`),
@@ -229,15 +229,9 @@ CREATE TABLE `payment`(
 );
 
 INSERT INTO `payment` (`ticketID`, `amount`, `cardNumber`, `userID`) VALUES
-('111', '20.00', '3440947502842836', '3'),
-('116', '30.00', '9248395729374773', '1'),
-('128', '10.00','2938999300229393', '6'),
-('135', '40.00', '1111888237473399', '2');
-
-
-
-
-
+('1111', '20.00', '3440947502842836', '3002'),
+('1114', '30.00', '9248395729374773', '3006'),
+('1112', '10.00','2938999300229393', '3009');
 
 
 
