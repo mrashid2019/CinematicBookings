@@ -51,7 +51,7 @@ INSERT INTO `theater` (`theater_name`, `theater_location`, `auditorium_Amount`) 
 	('IPIC Theaters','301 Plaza Real, Boca Raton, FL 33432', '6' );
 
 CREATE TABLE `auditorium`(
-    `auditoriumID` VARCHAR(4), 			
+    `auditoriumID` VARCHAR(10), 			
     `theaterID` INT NOT NULL,
     `auditorium_no` INT(10) NOT NULL,	
     `total_seats` INT(50) NOT NULL,
@@ -100,11 +100,9 @@ INSERT INTO `auditorium`(`auditoriumID`,`theaterID`, `auditorium_no`, `total_sea
 ('c5',3, 5,20 ),
 ('c6',3, 6,20 );
 
- 
-
 CREATE TABLE `seats`(
     `seatID` INT NOT NULL AUTO_INCREMENT,
-    `auditoriumID` INT(10) NOT NULL,
+    `auditoriumID` VARCHAR(10) NOT NULL,
     `seat_no` INT(50) NOT NULL,
     PRIMARY KEY (`seatID`),
     FOREIGN KEY (`auditoriumID`) REFERENCES auditorium(`auditoriumID`)
@@ -157,7 +155,7 @@ INSERT INTO `seats` (`auditoriumID`,`seat_no`) VALUES
 
 CREATE TABLE `schedule`(
 `scheduleID` INT NOT NULL AUTO_INCREMENT,
-`auditoriumID` INT NOT NULL,
+`auditoriumID` VARCHAR(10) NOT NULL,
 `start_time` DATE,
 `end_time` DATE,
 `remaining_seats` INT(50) NOT NULL,
@@ -168,10 +166,10 @@ FOREIGN KEY (`auditoriumID`) REFERENCES auditorium(`auditoriumID`)
  );
  
  INSERT INTO `schedule` (`auditoriumID`, `start_time`, `end_time`, `remaining_seats`, `movieID`) VALUES
- ('11', '2019-03-20', '2019-04-05', '15', '1005'),
- ('32', '2020-12-22', '2021-03-20', '35', '1001'),
- ('29', '2022-01-05', '2022-02-28', '8', '1013'),
-  ('3', '2022-02-01', '2022-04-20', '20', '1004');
+ ('a10', '2019-03-20', '2019-04-05', '15', '1005'),
+ ('b14', '2020-12-22', '2021-03-20', '35', '1001'),
+ ('b8', '2022-01-05', '2022-02-28', '8', '1013'),
+  ('c3', '2022-02-01', '2022-04-20', '20', '1004');
 
  
 CREATE TABLE `users`(
@@ -192,8 +190,6 @@ INSERT INTO `users` (`userID`,`role`, `username`, `password`, `email`, `firstNam
 ('3005','general', 'DougO', 'maxxy2004', 'Doug.Oakley@yahoo.com', 'Douglas', 'Oakley'),
 ('3006','general', 'CleveT', 'cleveroness', 'cleveland_t@hotmail.com', 'Cleveland', 'Trujillo'),
 ('3009','general', 'diaa23', 'temp123', 'mahdia@hotmail.com', 'Mahdia', 'Rashid');
-
-
  
 CREATE TABLE `tickets`(
 `ticketID` INT NOT NULL,
@@ -212,8 +208,6 @@ FOREIGN KEY (`scheduleID`) REFERENCES `schedule` (`scheduleID`)
  ('1112', '2019-04-01', '10.00', '3', '3006', '2'),
  ('1114', '2020-01-13', '15.00', '1', '3005', '1');
  
- 
- 
 
 CREATE TABLE `payment`(
     `paymentID` INT NOT NULL AUTO_INCREMENT,
@@ -230,11 +224,3 @@ INSERT INTO `payment` (`ticketID`, `amount`, `cardNumber`, `userID`) VALUES
 ('1111', '20.00', '3440947502842836', '3002'),
 ('1114', '30.00', '9248395729374773', '3006'),
 ('1112', '10.00','2938999300229393', '3009');
-
-hello
-
-
-
-
-
-
