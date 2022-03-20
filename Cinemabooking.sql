@@ -100,6 +100,8 @@ INSERT INTO `auditorium`(`auditoriumID`,`theaterID`, `auditorium_no`, `total_sea
 ('c5',3, 5,20 ),
 ('c6',3, 6,20 );
 
+ 
+
 CREATE TABLE `seats`(
     `seatID` INT NOT NULL AUTO_INCREMENT,
     `auditoriumID` VARCHAR(10) NOT NULL,
@@ -190,6 +192,8 @@ INSERT INTO `users` (`userID`,`role`, `username`, `password`, `email`, `firstNam
 ('3005','general', 'DougO', 'maxxy2004', 'Doug.Oakley@yahoo.com', 'Douglas', 'Oakley'),
 ('3006','general', 'CleveT', 'cleveroness', 'cleveland_t@hotmail.com', 'Cleveland', 'Trujillo'),
 ('3009','general', 'diaa23', 'temp123', 'mahdia@hotmail.com', 'Mahdia', 'Rashid');
+
+
  
 CREATE TABLE `tickets`(
 `ticketID` INT NOT NULL,
@@ -208,6 +212,8 @@ FOREIGN KEY (`scheduleID`) REFERENCES `schedule` (`scheduleID`)
  ('1112', '2019-04-01', '10.00', '3', '3006', '2'),
  ('1114', '2020-01-13', '15.00', '1', '3005', '1');
  
+ 
+ 
 
 CREATE TABLE `payment`(
     `paymentID` INT NOT NULL AUTO_INCREMENT,
@@ -224,3 +230,41 @@ INSERT INTO `payment` (`ticketID`, `amount`, `cardNumber`, `userID`) VALUES
 ('1111', '20.00', '3440947502842836', '3002'),
 ('1114', '30.00', '9248395729374773', '3006'),
 ('1112', '10.00','2938999300229393', '3009');
+
+/*Queries*/
+/*1.Find the names of movies showing in "English"*/
+SELECT name
+FROM movie
+WHERE language = 'English';
+
+/* 2. What customer made the biggest payment*/
+
+SELECT users.firstName,users.lastName, MAX(p.amount) as Total
+FROM payment p
+INNER JOIN users ON  users.userID = p.userID;
+
+/* 3. Name of the movies that are schedule to play this year*/
+SELECT m.name
+FROM movie m 
+WHERE m.movieID IN (SELECT s.movieID  FROM schedule s
+					WHERE YEAR(s.start_time) = (SELECT year(CURDATE())));
+
+/*4. What is the role, name, and id of general user has not purchased a ticket*/
+SELECT s.userID,s.role,s.firstName,s.lastName
+FROM users s
+WHERE s.role = 'general' AND s.userID NOT IN
+( SELECT t.userID
+ FROM tickets t);
+
+/*5. What movie has not sold any tickets?*/
+SELECT m.name FROM movie m 
+WHERE m.movieID IN ( SELECT s.movieID FROM schedule s
+INNER JOIN auditorium ON auditorium.auditoriumID = s.auditoriumID
+WHERE s.remaining_seats =  auditorium.total_seats);
+
+/*6. What is the name of the theater user(3009) will attend*/
+SELECT t.theater_name
+FROM theater t WHERE t.theaterID = (SELECT a.theaterID FROM auditorium a
+					WHERE a.auditoriumID = (SELECT s.auditoriumID FROM schedule s
+					WHERE s.scheduleID = (SELECT t.scheduleID FROM tickets t
+					WHERE userID = 3009)))
